@@ -1,13 +1,23 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import FeedBackContext from '../context/FeedBackContext.jsx';
+import { useEffect } from 'react';
 
-function Rating({select}) {
+function Rating({ select }) {
 
-    const [selected,setSelected] = useState('');
+    const [selected, setSelected] = useState('');
 
     const handleChange = (e) => {
         setSelected(+e.currentTarget.value);
         select(+e.currentTarget.value);
     }
+
+    const { feedBackEdit } = React.useContext(FeedBackContext);
+
+    useEffect(() => {
+        if (feedBackEdit.edit === true) {
+            setSelected(feedBackEdit.item.rating);
+        }
+    }, [feedBackEdit])
     return (
         <ul className="rating">
             <li>
@@ -47,7 +57,7 @@ function Rating({select}) {
                 <label htmlFor="num9">9</label>
             </li>
             <li>
-                <input type="radio" id="num10" name="rating" value="10" onChange={handleChange} checked={selected === 10}/>
+                <input type="radio" id="num10" name="rating" value="10" onChange={handleChange} checked={selected === 10} />
                 <label htmlFor="num10">10</label>
             </li>
 

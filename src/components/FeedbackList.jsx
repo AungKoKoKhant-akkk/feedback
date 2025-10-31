@@ -1,14 +1,19 @@
 
-import FeedbackData from '../data/FeedbackData'
+
 import FeedbackItem from './FeedbackItem.jsx'
-import PropTypes from 'prop-types'
+
 import { motion, AnimatePresence } from "framer-motion";
+import { useContext } from "react";
+import FeedBackContext from '../context/FeedBackContext.jsx';
 
 
 // ပို့လိုက်တဲ့ဒေတာကို ယူပြီး FeedbackItem component ကို map လုပ်ပေးထားတာဖြစ်ပါတယ်။
-function FeedbackList({ feedBackSent, handleDeletefromAppJsx }) {
+function FeedbackList() {
 
-    if (!feedBackSent || feedBackSent.length === 0) {
+    const { feedBack, editFeedback } = useContext(FeedBackContext);
+
+
+    if (!feedBack || feedBack.length === 0) {
         return <p>No Feedback Yet</p>
     }
 
@@ -16,7 +21,7 @@ function FeedbackList({ feedBackSent, handleDeletefromAppJsx }) {
 
         <div className='feedback-list'>
             <AnimatePresence>
-                {feedBackSent.map((itemList) => (
+                {feedBack.map((itemList) => (
                     <motion.div
                         className="feedback-item"
                         initial={{ opacity: 0 }}
@@ -26,7 +31,7 @@ function FeedbackList({ feedBackSent, handleDeletefromAppJsx }) {
                     >
                         <FeedbackItem key={itemList.id}
                             itemSent={itemList}
-                            handleDelete={handleDeletefromAppJsx} />
+                        />
                     </motion.div>
 
                 ))}
@@ -47,14 +52,6 @@ function FeedbackList({ feedBackSent, handleDeletefromAppJsx }) {
     )
 }
 
-FeedbackList.propTypes = {
-    feedBack: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            rating: PropTypes.number.isRequired,
-            text: PropTypes.string.isRequired
-        })
-    ).isRequired
-}
+
 
 export default FeedbackList
